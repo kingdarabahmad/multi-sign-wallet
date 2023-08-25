@@ -101,6 +101,7 @@ const CreateBoxStepper = () => {
             console.log(userWalletData);
             console.log("Hello World")
             setTransactionLoader(false);
+            setTxerror(false);
             if (clientSigner && signer) {
                 console.log("transaction")
                 console.log(signer)
