@@ -19,12 +19,12 @@ const Overview = () => {
             <div className='bg-white p-7 rounded-md flex flex-col gap-6'>
                 <div>
                     <Badge size='md' color='danger' content="3/3" shape='circle' className='text-black'>
-                        <Avatar name={`${walletData[0].walletName}`} size='lg' isBordered radius='full' />
+                        <Avatar name={`${walletData[0]?.walletName}`} size='lg' isBordered radius='full' />
                     </Badge>
                 </div>
 
                 <div className='flex flex-col gap-1'>
-                    <p className='text-sm tracking-wider'>{walletData[0].walletName}</p>
+                    <p className='text-sm tracking-wider'>{walletData[0]?.walletName}</p>
                     <p className='w-full font-bold text-sm text-clip overflow-hidden'>MutiSign Contract Address: <br /><span className='font-normal '>{contract}</span></p>
                 </div>
                 <div className='flex flex-row items-center justify-between'>
