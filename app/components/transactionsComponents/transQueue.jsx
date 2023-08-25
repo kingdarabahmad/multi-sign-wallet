@@ -95,7 +95,6 @@ const TransQueue = () => {
                     }
                 }
             )
-            console.log(queryVotetxn)
 
             const totalVotes = queryVotetxn?.votes?.reduce((sum, curr) => {
                 if (curr.weight) {

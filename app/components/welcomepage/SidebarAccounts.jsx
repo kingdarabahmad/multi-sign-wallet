@@ -27,17 +27,12 @@ const SidebarAccounts = () => {
                 setIsConnecting(false);
             });
     };
-    console.log(userData.signer)
 
 
 
     useEffect(() => {
         // Dispatch an action to check user's wallet connection status
         dispatch(connectWallet())
-            // .then((item) => {
-            //     console.log(item.payload.user.clientSigner)
-            //     handleWallets(item.payload.user.clientSigner)
-            // })
             .catch(error => {
                 console.error("Error checking wallet connection:", error);
             });
@@ -50,7 +45,6 @@ const SidebarAccounts = () => {
     }, [userData?.user?.clientSigner])
 
     const handleWallets = async (clientSigner) => {
-        console.log(clientSigner)
         try {
             const queryWallets = await clientSigner?.queryContractSmart(
                 deployerContract,
@@ -67,7 +61,6 @@ const SidebarAccounts = () => {
         }
     }
 
-    console.log(wallets)
     if (!userData.user.signer) {
         return (
             <div className='shadow-lg'>
@@ -117,7 +110,6 @@ const SidebarAccounts = () => {
                 <div className="flex flex-col gap-1 w-full  h-[70vh] max-h-[80vh] overflow-auto scrollbar-thin scrollbar-rounded-* scrollbar-thumb-zinc-300">
                     {wallets?.map((item) => {
 
-                        console.log(localStorage.key("name"));
                         const localWallets = localStorage.key("name") == "/****user_wallet****/" ? JSON.parse(localStorage.getItem("/****user_wallet****/")).find(wallet => wallet.walletAddress === item) : null
                         
                         return (

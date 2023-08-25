@@ -9,11 +9,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 const Transactionform = () => {
     const dispatch = useDispatch()
     const queryParams = useSearchParams()
-    console.log(queryParams)
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const router=useRouter()
-
-    console.log(clientSigner, signer)
 
     const [proposalData, setProposalData] = useState({
         title: "",
@@ -32,7 +29,6 @@ const Transactionform = () => {
     }
 
     const handleSubmit = async () => {
-        console.log(signer)
         try {
             // http://localhost:3001/home?multi_sig=osmo1sylzutg06euqch5ve2gqx5huvm2ml2wus39sqtgcfyvt3gwlk6cq5tzn29
 
@@ -58,14 +54,11 @@ const Transactionform = () => {
 
             router.push(`/home/transactions?multi_sig=${queryParams.get('multi_sig')}`)
             dispatch(setActiveComponent(1))
-            console.log(createProposalTxn);
 
         } catch (error) {
             console.log(error)
         }
     }
-
-    console.log(proposalData)
 
     return (
         <div className='flex flex-col my-10 mx-36 gap-4 w-full relative'>

@@ -6,8 +6,7 @@ const proposalInitialState = {
 }
 
 export const fetchProposals = createAsyncThunk("fetchProposals", async (data) => {
-    console.log(data?.clientSigner) 
-    console.log(data?.contract)
+    
     try {
         const proposalsData = await data?.clientSigner.queryContractSmart(
             data?.contract,
@@ -18,8 +17,6 @@ export const fetchProposals = createAsyncThunk("fetchProposals", async (data) =>
                 }
             }
         )
-
-        console.log(proposalsData.proposals)
 
         return {
             proposals: proposalsData?.proposals

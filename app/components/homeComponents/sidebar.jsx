@@ -36,12 +36,7 @@ const Sidebar = () => {
             contract,
             'uosmo'
         )
-        console.log(txn)
     }
-    console.log(proposalsData)
-
-    console.log(clientSigner);
-
     return (
         <div className='basis-1/5 min-h-screen bg-white border-r-2 border-gray-300'>
             {/* upper-div  */}

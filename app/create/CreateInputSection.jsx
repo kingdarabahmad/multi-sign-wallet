@@ -7,10 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const CreateInputSection = ({ state, setState }) => {
 
-    console.log(state)
-
     const handleInputChange = (index, field, value) => {
-        console.log(index, field, value);
         const newData = [...state.owners];
         newData[index] = {
             ...newData[index],
@@ -19,11 +16,8 @@ const CreateInputSection = ({ state, setState }) => {
         setState(prev => ({ ...prev, owners: newData }))
     };
 
-    console.log(state)
-
 
     const handleDeleteInput = (index) => {
-        console.log("Deleting index:", index);
 
         const newInputTags = state.owners.filter((_, i) => i !== index);
         setState(prev => ({ ...prev, owners: newInputTags }))

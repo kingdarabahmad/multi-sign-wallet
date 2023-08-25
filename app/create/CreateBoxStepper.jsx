@@ -58,7 +58,7 @@ const CreateBoxStepper = () => {
         (!owner.address || owner.address.trim() === '') &&
         (!owner.weight || owner.weight ==='')
     ));
-    console.log(ownersWithEmptyFields)
+
     const voteValidation = stepperCount > 0 && (!userWalletData.maxVotingPeriod);
 
     const thresholdValidation = stepperCount > 0 && (!userWalletData.threshold);
@@ -68,20 +68,17 @@ const CreateBoxStepper = () => {
         let currentTime = Math.floor(Date.now() / 1000);
 
         if (userWalletData.walletName.trim() === '') {
-            console.log("Wallet name should be a non-empty.");
             setShowNameError(true);
             return;
         }
 
 
         if (stepperCount == 1 && ownersWithEmptyFields.length > 0) {
-            console.log(ownersWithEmptyFields, "Owner fields should not be empty.");
             setShowError(true);
             return;
         }
 
         if (voteValidation || thresholdValidation) {
-            console.log("Vote and threshold is empty non-empty.");
             setShowError(true);
             return;
         }
@@ -98,14 +95,9 @@ const CreateBoxStepper = () => {
         }
 
         else if (stepperCount == 2) {
-            console.log(userWalletData);
-            console.log("Hello World")
             setTransactionLoader(false);
             setTxerror(false);
             if (clientSigner && signer) {
-                console.log("transaction")
-                console.log(signer)
-                console.log(clientSigner)
                 let owner_arr = []
 
                 for (let i = 0; i < userWalletData?.owners.length; i++) {
@@ -137,12 +129,10 @@ const CreateBoxStepper = () => {
                     setTxerror(true);
                 }
 
-                console.log("Transaction data....", transaction)
 
                 const multi_contract_address = ((transaction.logs[0].events.filter(item => item.type === "wasm"))[0].attributes.filter(items => items.key === "multi_contract_address"))[0].value;
 
                 if (multi_contract_address) {
-                    console.log("wallet created successfuly")
                     setUserWalletData(prev => ({ ...prev, walletAddress: multi_contract_address }))
                     setTransactionLoader(true)
 
@@ -217,7 +207,7 @@ const CreateBoxStepper = () => {
                             </div>
                             {showNameError && userWalletData.walletName === "" && (
                                 <div className="absolute -mt-6">
-                                    <p className="text-red-500 ml-4 text-xs font-normal text-gray-500 hover:underline">
+                                    <p className="text-red-500 ml-4 text-xs font-normal hover:underline">
                                         <HelpOutlineIcon className='w-3 h-3 mr-2' />
                                         Please Enter a Wallet name.</p>
                                 </div>
@@ -229,7 +219,7 @@ const CreateBoxStepper = () => {
                                 <CreateInputSection state={userWalletData} setState={setUserWalletData} />
                                 {showError && stepperCount > 0 && (
                                     <div className="absolute -mt-6">
-                                        <p className="text-red-500 ml-4 text-xs font-normal text-gray-500 hover:underline">
+                                        <p className="text-red-500 ml-4 text-xs font-normal hover:underline">
                                             <HelpOutlineIcon className='w-3 h-3 mr-2' />
                                             Please Check Entered Data Again.</p>
                                     </div>

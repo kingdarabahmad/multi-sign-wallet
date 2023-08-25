@@ -9,7 +9,6 @@ const Overview = () => {
 
     const walletData = (localStorage.key("name") === "/****user_wallet****/") ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)).length > 0 ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)) : ([{ walletName: "User" }]) : ([{ walletName: "User" }])
     
-    console.log(walletData)
     return (
         <div className='w-3/5 flex flex-col gap-4'>
             {/* text heading  */}

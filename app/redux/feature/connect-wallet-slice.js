@@ -63,7 +63,6 @@ const addChain = async () => {
 
 export const connectWallet = createAsyncThunk("connectWallet", async () => {
     try {
-        console.log("Hello World2")
         addChain();
 
         if (!window.keplr) {
@@ -98,7 +97,6 @@ export const connectSlice = createSlice({
     initialState: userWalletInitialState,
     extraReducers: builder => {
         builder.addCase(connectWallet.fulfilled, (state, action) => {
-            console.log("Hello world 3")
             return {
                 ...state,
                 user: {
