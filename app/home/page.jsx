@@ -7,6 +7,7 @@ import Transactionform from '../components/homeComponents/transactionform'
 import { useDispatch, useSelector } from "react-redux"
 import { fetchProposals } from '../redux/feature/fetchProposalsSlice'
 import { useSearchParams } from 'next/navigation'
+import SendTokenTxnForm from '../components/homeComponents/sendTokenTxnForm'
 
 const Home = () => {
   const { activeComponent } = useSelector((state) => state.activeComponent)
@@ -30,6 +31,7 @@ const Home = () => {
       }
       {activeComponent === 2 && <NewTransaction />}
       {activeComponent === 3 && <Transactionform />}
+      {activeComponent===4 && <SendTokenTxnForm/>}
 
 
     </div>

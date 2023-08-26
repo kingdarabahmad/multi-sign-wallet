@@ -35,9 +35,10 @@ const TransQueue = () => {
 
     useEffect(() => {
         dispatch(fetchProposals({ clientSigner, contract }))
+       
 
     }, [proposalsData?.length, signer, isProposalStatusChanged])
-
+    console.log(proposalsData)
     const handleOpen = (id) => {
         setOpen((prev) => prev === false ? true : false)
         setDivId(id)
@@ -119,7 +120,7 @@ const TransQueue = () => {
                                 <div className="basis-5/6 flex flex-col gap-2">
 
                                     <p className="text-xs font-bold">Proposer: <span className="text-xs text-cyan-700 font-medium">{proposal.proposer}</span></p>
-                                    <p className="text-xs font-bold">Interact with: <span className="text-xs text-amber-700 font-medium">{proposal.msgs[0].bank.send.to_address}</span></p>
+                                    <p className="text-xs font-bold">Interact with: <span className="text-xs text-amber-700 font-medium">{Object.keys(proposal.msgs[0]).includes("wasm")?proposal.msgs[0].wasm.execute.contract_addr :proposal.msgs[0].bank.send.to_address}</span></p>
                                     <div className=" basis-1/2 flex flex-row gap-4 items-center">
                                         <Button size="sm" radius="md" className="bg-teal-600 text-white font-semibold" onClick={() => queryVotes(proposal.id)}>Get Vote Count</Button>
                                         <p className="font-semibold text-xs text-teal-600">{voteCount}</p>

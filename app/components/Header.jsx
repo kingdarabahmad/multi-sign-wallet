@@ -42,8 +42,7 @@ const Header = () => {
 
 
             <Link className='text-2xl text-gray-700 font-bold flex items-center gap-1' href="/">
-                <Image src="/logo.png" width={34} height={34} alt='logo' className='object-contain' />
-                <p className='font-light font-mono text-base text-zinc-600'>Multisig</p>
+                <Image src="/logo.png" width={90} height={90} alt='logo' className='object-contain' />
             </Link>
             <div className="flex items-center gap-8">
 

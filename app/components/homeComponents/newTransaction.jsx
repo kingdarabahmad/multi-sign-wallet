@@ -18,7 +18,9 @@ const NewTransaction = () => {
                 <TollIcon className='text-8xl text-teal-800 '/>
                 <p className='text-lg font-semibold tracking-wider'>Assets</p>
             </div>
-            <Button size='lg' radius='sm'  className='bg-black text-white' onClick={()=>dispatch(setActiveComponent(3))}>Send tokens</Button>
+            <Button size='lg' radius='sm'  className='bg-black text-white' onClick={()=>dispatch(setActiveComponent(3))}>Send Native</Button>
+
+            <Button size='lg' radius='sm'  className='bg-black text-white' onClick={()=>dispatch(setActiveComponent(4))}>Send Tokens</Button>
         </div>
 
     </div>
