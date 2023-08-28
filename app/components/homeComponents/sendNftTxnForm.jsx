@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 
-const SendTokenTxnForm = () => {
+const SendNftTxnForm = () => {
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const queryParams = useSearchParams()
 
@@ -147,4 +147,4 @@ const SendTokenTxnForm = () => {
     )
 }
 
-export default SendTokenTxnForm
+export default SendNftTxnForm

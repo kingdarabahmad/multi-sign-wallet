@@ -21,6 +21,8 @@ const NewTransaction = () => {
             <Button size='lg' radius='sm'  className='bg-black text-white' onClick={()=>dispatch(setActiveComponent(3))}>Send Native</Button>
 
             <Button size='lg' radius='sm'  className='bg-black text-white' onClick={()=>dispatch(setActiveComponent(4))}>Send Tokens</Button>
+
+            <Button size='lg' radius='sm'  className='bg-black text-white' onClick={()=>dispatch(setActiveComponent(5))}>Send Nfts</Button>
         </div>
 
     </div>
