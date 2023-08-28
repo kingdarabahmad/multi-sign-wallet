@@ -3,12 +3,14 @@ import TollIcon from '@mui/icons-material/Toll';
 import { InputAdornment, TextField } from '@mui/material';
 import { Button } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveComponent } from '@/app/redux/feature/activeComponentSlice';
 
 
 const SendTokenTxnForm = () => {
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const queryParams = useSearchParams()
+    const dispatch=useDispatch()
 
     const [tokenFormData, setTokenFormData] = useState({
         title: "",

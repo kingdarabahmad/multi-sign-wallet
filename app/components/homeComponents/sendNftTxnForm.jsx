@@ -3,18 +3,20 @@ import TollIcon from '@mui/icons-material/Toll';
 import { InputAdornment, TextField } from '@mui/material';
 import { Button } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveComponent } from '@/app/redux/feature/activeComponentSlice';
 
 
 const SendNftTxnForm = () => {
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const queryParams = useSearchParams()
+    const dispatch=useDispatch()
 
     const [nftFormData, setNftFormData] = useState({
         title: "",
         description: "",
         address: "",
-        token_id: 0
+        token_id: ""
     })
 
 
@@ -107,7 +109,6 @@ const SendNftTxnForm = () => {
         }
     }
 
-    console.log(tokenFormData)
     return (
         <div className='flex flex-col my-10 mx-36 gap-4 w-full relative'>
             <div className='w-full'>
@@ -116,16 +117,16 @@ const SendNftTxnForm = () => {
             <div className='bg-white flex flex-col p-6 rounded-md gap-6 w-full'>
                 <div className='flex gap-3 items-center'>
                     <TollIcon className='text-teal-800 ' />
-                    <p className='text-xl font-semibold tracking-wide'>Send tokens</p>
+                    <p className='text-xl font-semibold tracking-wide'>Send NFT</p>
                 </div>
                 <div className='flex flex-col gap-8'>
 
-                    <TextField name='title' id='title' fullWidth label="Title" variant='outlined' required color='secondary' value={tokenFormData.title} onChange={(e) => handleNftFormData(e)} />
-                    <TextField name='description' id='description' fullWidth label="Description" variant='outlined' value={tokenFormData.description} required color='secondary' onChange={(e) => handleNftFormData(e)} />
-                    <TextField name='address' id='recipientAddress' value={tokenFormData.address} fullWidth label="Recipient address" variant='outlined' color='secondary' required InputProps={{
+                    <TextField name='title' id='title' fullWidth label="Title" variant='outlined' required color='secondary' value={nftFormData.title} onChange={(e) => handleNftFormData(e)} />
+                    <TextField name='description' id='description' fullWidth label="Description" variant='outlined' value={nftFormData.description} required color='secondary' onChange={(e) => handleNftFormData(e)} />
+                    <TextField name='address' id='recipientAddress' value={nftFormData.address} fullWidth label="Recipient address" variant='outlined' color='secondary' required InputProps={{
                         startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
                     }} onChange={(e) => handleNftFormData(e)} />
-                    <TextField name='amount' type='Number' id='Amount' fullWidth label="Amount" value={tokenFormData.amount} variant='outlined' required color='secondary' onChange={(e) => handleNftFormData(e)} />
+                    <TextField name='token_id' id='token_id' fullWidth label="Token Id" value={nftFormData.amount} variant='outlined' required color='secondary' onChange={(e) => handleNftFormData(e)} />
                 </div>
                 <div className='flex justify-end'>
                     <Button radius='sm' className='text-white bg-black text-lg font-semibold'

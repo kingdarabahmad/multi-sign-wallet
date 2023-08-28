@@ -57,8 +57,8 @@ export const connectSlice = createSlice({
             return {
                 ...state,
                 user: {
-                    signer: action.payload.user.signer,
-                    clientSigner: action.payload.user.clientSigner
+                    signer: action?.payload?.user.signer,
+                    clientSigner: action?.payload?.user.clientSigner
                 },
                 error: ""
             }

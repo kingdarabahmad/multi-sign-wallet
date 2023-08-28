@@ -9,16 +9,20 @@ import { fetchProposals } from '../redux/feature/fetchProposalsSlice'
 import { useSearchParams } from 'next/navigation'
 import SendTokenTxnForm from '../components/homeComponents/sendTokenTxnForm'
 import SendNftTxnForm from '../components/homeComponents/sendNftTxnForm'
+import UpdateMember from '../components/homeComponents/updateMember'
+import { connectWallet } from '../redux/feature/connect-wallet-slice'
 
 const Home = () => {
   const { activeComponent } = useSelector((state) => state.activeComponent)
   const { clientSigner, signer } = useSelector(state => state?.connectWalletReducer.user)
   const proposalsData = useSelector(state => state?.fetchProposalsReducer?.proposalList);
+  const selectedChain=useSelector(state=>state.selectedChainReducer)
   const dispatch =useDispatch()
   const queryParams=useSearchParams()
   const contract=queryParams.get('multi_sig')
   
   useEffect(()=>{
+    dispatch(connectWallet(selectedChain.chainId))
     dispatch(fetchProposals({clientSigner,contract}))
   },[proposalsData?.length,signer])
   return (
@@ -32,8 +36,9 @@ const Home = () => {
       }
       {activeComponent === 2 && <NewTransaction />}
       {activeComponent === 3 && <Transactionform />}
-      {activeComponent===4 && <SendTokenTxnForm/>}
-      {activeComponent===5 && <SendNftTxnForm/>}
+      {activeComponent ===4 && <SendTokenTxnForm/>}
+      {activeComponent ===5 && <SendNftTxnForm/>}
+      {activeComponent ===6 && <UpdateMember/>}
 
 
     </div>

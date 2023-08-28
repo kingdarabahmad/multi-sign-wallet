@@ -1,11 +1,14 @@
+import { setActiveComponent } from '@/app/redux/feature/activeComponentSlice'
 import { Avatar, Badge, Button } from '@nextui-org/react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
 const Overview = () => {
     const queryParams = useSearchParams()
     const contract = queryParams.get("multi_sig")
+    const dispatch=useDispatch()
 
     const walletData = (localStorage.key("name") === "/****user_wallet****/") ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)).length > 0 ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)) : ([{ walletName: "User" }]) : ([{ walletName: "User" }])
     
@@ -43,7 +46,7 @@ const Overview = () => {
                     </Link>
                     
                 </div>
-                <Button className='w-[200px] bg-black text-white font-semibold' size='md' radius='sm'>Update Wallet Members</Button>
+                <Button onClick={()=>dispatch(setActiveComponent(6))} className='w-[200px] bg-black text-white font-semibold' size='md' radius='sm'>Update Wallet Members</Button>
             </div>
         </div>
     )

@@ -8,7 +8,7 @@ const proposalInitialState = {
 export const fetchProposals = createAsyncThunk("fetchProposals", async (data) => {
     
     try {
-        const proposalsData = await data?.clientSigner.queryContractSmart(
+        const proposalsData = await data?.clientSigner?.queryContractSmart(
             data?.contract,
             {
                 list_proposals: {
@@ -33,7 +33,7 @@ const createFetchProposalsSlice = createSlice({
         builder.addCase(fetchProposals.fulfilled, (state, action) => {
             return {
                 ...state,
-                proposalList: action?.payload?.proposals.sort((a,b)=>b.id-a.id)
+                proposalList: action?.payload?.proposals?.sort((a,b)=>b.id-a.id)
             }
         }),
         builder.addCase(fetchProposals.rejected, (state, action) => {
