@@ -15,10 +15,11 @@ const SidebarAccounts = () => {
     const [isConnecting, setIsConnecting] = useState(false);
     const [wallets, setWallets] = useState([]);
     const deployerContract = process.env.NEXT_PUBLIC_DEPLOYER_CONTRACT;
+    const selectedChain=useSelector(state=>state.selectedChainReducer)
 
     const handleConnectWallet = () => {
         setIsConnecting(true);
-        dispatch(connectWallet())
+        dispatch(connectWallet(selectedChain.chainId))
             .then(() => {
                 setIsConnecting(false);
             })
@@ -32,11 +33,11 @@ const SidebarAccounts = () => {
 
     useEffect(() => {
         // Dispatch an action to check user's wallet connection status
-        dispatch(connectWallet())
+        dispatch(connectWallet(selectedChain.chainId))
             .catch(error => {
                 console.error("Error checking wallet connection:", error);
             });
-    }, []);
+    }, [selectedChain.chainId]);
 
     useEffect(() => {
         if (userData?.user?.clientSigner != "") {
@@ -54,7 +55,7 @@ const SidebarAccounts = () => {
                     }
                 }
             )
-            setWallets(queryWallets?.Ok.wallets);
+            setWallets(queryWallets?.Ok?.wallets);
             console.log(queryWallets);
         } catch (error) {
             console.log(error)

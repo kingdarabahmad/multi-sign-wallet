@@ -4,7 +4,7 @@ import { connectWallet, disconnect } from "@/app/redux/feature/connect-wallet-sl
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 
-const Connectwallet = () => {
+const Connectwallet = ({selectedChain}) => {
   const dispatch = useDispatch();
   const userData = useSelector(state => state.connectWalletReducer);
 
@@ -30,7 +30,7 @@ const Connectwallet = () => {
               if (userData.user.signer) {
                 dispatch(disconnect());
               } else {
-                dispatch(connectWallet());
+                dispatch(connectWallet(selectedChain.chainId));
               }
             }} className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow border">
               <img src="https://assets-global.website-files.com/636e894daa9e99940a604aef/63bb99fc3d3d7a0f906e49ed_Keplr-logo.png" className='w-20' />

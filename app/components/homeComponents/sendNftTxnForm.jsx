@@ -10,19 +10,19 @@ const SendNftTxnForm = () => {
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const queryParams = useSearchParams()
 
-    const [tokenFormData, setTokenFormData] = useState({
+    const [nftFormData, setNftFormData] = useState({
         title: "",
         description: "",
         address: "",
-        amount: 0
+        token_id: 0
     })
 
 
 
-    const handleTokenFormData = (event) => {
+    const handleNftFormData = (event) => {
         const { name, value } = event.target;
 
-        setTokenFormData((prev) => (
+        setNftFormData((prev) => (
             {
                 ...prev,
                 [name]: value
@@ -66,17 +66,16 @@ const SendNftTxnForm = () => {
         try {
             const approvalTxn=await clientSigner.execute(
                 signer,
-                "osmo1py2y08gssxqp3r4ah9e73qq0qkl4squhy3q7zt0ja4nnrec70c7qyq4l4d",
+                "NftContractAddress",
                 {
                     increase_allowance:{
                         spender: queryParams.get("multi_sig"),
-                        amount:tokenFormData.amount,
-                        expires:undefined
+                        token_id:nftFormData.token_id
                     }
                 },
                 "auto"
             )
-            const createTokenTransferProposal = await clientSigner.execute(
+            const createNftTransferProposal = await clientSigner.execute(
                 signer,
                 queryParams.get("multi_sig"),
                 {
@@ -86,12 +85,11 @@ const SendNftTxnForm = () => {
                         msgs: [{
                             wasm: {
                                 execute: {
-                                    contract_addr: "osmo1py2y08gssxqp3r4ah9e73qq0qkl4squhy3q7zt0ja4nnrec70c7qyq4l4d",
+                                    contract_addr: "nftContractAddress",
                                     msg: btoa(JSON.stringify({
-                                        transfer_from: {
-                                            owner: signer,
-                                            recipient: tokenFormData?.address,
-                                            amount: tokenFormData?.amount
+                                        transfer_nft: {
+                                            recipient: nftFormData?.address,
+                                            token_id: nftFormData?.token_id
                                         }
                                     })),
                                     funds: []
@@ -102,7 +100,7 @@ const SendNftTxnForm = () => {
                 },
                 "auto"
             )
-            console.log(createTokenTransferProposal)
+            console.log(createNftTransferProposal)
 
         } catch (error) {
             console.log(error)
@@ -122,12 +120,12 @@ const SendNftTxnForm = () => {
                 </div>
                 <div className='flex flex-col gap-8'>
 
-                    <TextField name='title' id='title' fullWidth label="Title" variant='outlined' required color='secondary' value={tokenFormData.title} onChange={(e) => handleTokenFormData(e)} />
-                    <TextField name='description' id='description' fullWidth label="Description" variant='outlined' value={tokenFormData.description} required color='secondary' onChange={(e) => handleTokenFormData(e)} />
+                    <TextField name='title' id='title' fullWidth label="Title" variant='outlined' required color='secondary' value={tokenFormData.title} onChange={(e) => handleNftFormData(e)} />
+                    <TextField name='description' id='description' fullWidth label="Description" variant='outlined' value={tokenFormData.description} required color='secondary' onChange={(e) => handleNftFormData(e)} />
                     <TextField name='address' id='recipientAddress' value={tokenFormData.address} fullWidth label="Recipient address" variant='outlined' color='secondary' required InputProps={{
                         startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
-                    }} onChange={(e) => handleTokenFormData(e)} />
-                    <TextField name='amount' type='Number' id='Amount' fullWidth label="Amount" value={tokenFormData.amount} variant='outlined' required color='secondary' onChange={(e) => handleTokenFormData(e)} />
+                    }} onChange={(e) => handleNftFormData(e)} />
+                    <TextField name='amount' type='Number' id='Amount' fullWidth label="Amount" value={tokenFormData.amount} variant='outlined' required color='secondary' onChange={(e) => handleNftFormData(e)} />
                 </div>
                 <div className='flex justify-end'>
                     <Button radius='sm' className='text-white bg-black text-lg font-semibold'

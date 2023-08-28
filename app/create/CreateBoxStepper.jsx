@@ -56,7 +56,7 @@ const CreateBoxStepper = () => {
     const ownersWithEmptyFields = userWalletData.owners.filter(owner => (
         (!owner.name || owner.name.trim() === '') &&
         (!owner.address || owner.address.trim() === '') &&
-        (!owner.weight || owner.weight ==='')
+        (!owner.weight || owner.weight === '')
     ));
 
     const voteValidation = stepperCount > 0 && (!userWalletData.maxVotingPeriod);
@@ -110,7 +110,10 @@ const CreateBoxStepper = () => {
                 }
 
                 let transaction;
+                let TimeConversion = 24 * 60 * 60;
                 try {
+                    console.log(clientSigner)
+                    console.log(deployer_contract)
                     transaction = await clientSigner.execute(
                         signer,
                         deployer_contract,
@@ -118,46 +121,52 @@ const CreateBoxStepper = () => {
                             connector: {
                                 members: owner_arr,
                                 threshold_weight: userWalletData?.threshold,
-                                max_voting_period: currentTime + (userWalletData?.maxVotingPeriod * 24 * 60 * 60),
+                                max_voting_period: currentTime + (userWalletData?.maxVotingPeriod * TimeConversion),
+                                //converting maxvotingPeriod from days to seconds.
                             }
                         },
                         "auto"
                     )
-                    
+
+                    console.log(transaction)
+
+                    const multi_contract_address = ((transaction?.logs[0]?.events.filter(item => item.type === "wasm"))[0].attributes.filter(items => items.key === "multi_contract_address"))[0].value;
+
+                    if (multi_contract_address) {
+                        setUserWalletData(prev => ({ ...prev, walletAddress: multi_contract_address }))
+                        setTransactionLoader(true)
+
+                        setUserWalletData(prev => {
+                            const userWalletAddr = {
+                                ...prev,
+                                walletAddress: multi_contract_address
+                            }
+
+                            const userWallets = localStorage.getItem("/****user_wallet****/") === null ? [] : localStorage.getItem("/****user_wallet****/");
+
+                            if (userWallets.length > 0) {
+                                const wallets = JSON.parse(userWallets);
+                                wallets.push(userWalletAddr);
+                                localStorage.setItem('/****user_wallet****/', JSON.stringify(wallets))
+                            } else {
+                                userWallets.push(userWalletAddr);
+                                localStorage.setItem('/****user_wallet****/', JSON.stringify(userWallets))
+                            }
+
+                            return userWalletAddr
+                        })
+
+                        router.push(`/home?multi_sig=${multi_contract_address}`)
+                    }
+
                 } catch (error) {
                     setTransactionLoader(true);
                     setTxerror(true);
+                    console.log(error)
                 }
 
 
-                const multi_contract_address = ((transaction.logs[0].events.filter(item => item.type === "wasm"))[0].attributes.filter(items => items.key === "multi_contract_address"))[0].value;
 
-                if (multi_contract_address) {
-                    setUserWalletData(prev => ({ ...prev, walletAddress: multi_contract_address }))
-                    setTransactionLoader(true)
-
-                    setUserWalletData(prev => {
-                        const userWalletAddr = {
-                            ...prev,
-                            walletAddress: multi_contract_address
-                        }
-
-                        const userWallets = localStorage.getItem("/****user_wallet****/") === null ? [] : localStorage.getItem("/****user_wallet****/");
-
-                        if (userWallets.length > 0) {
-                            const wallets = JSON.parse(userWallets);
-                            wallets.push(userWalletAddr);
-                            localStorage.setItem('/****user_wallet****/', JSON.stringify(wallets))
-                        } else {
-                            userWallets.push(userWalletAddr);
-                            localStorage.setItem('/****user_wallet****/', JSON.stringify(userWallets))
-                        }
-
-                        return userWalletAddr
-                    })
-
-                    router.push(`/home?multi_sig=${multi_contract_address}`)
-                }
             }
         }
     }

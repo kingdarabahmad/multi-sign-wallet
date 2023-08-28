@@ -1,6 +1,8 @@
 "use client"
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setupWebKeplr, GasPrice } from "cosmwasm";
+import { addChainArchway, addChainOsmo } from "../addchains";
+import { chainData } from "../chainData";
 
 const userWalletInitialState = {
     user: {
@@ -10,75 +12,30 @@ const userWalletInitialState = {
     error: ""
 }
 
-const addChain = async () => {
-    try {
-        const data = await window.keplr.experimentalSuggestChain({
-            chainId: "osmo-test-5",
-            chainName: "Osmosis Testnet 5",
-            rpc: "https://rpc.osmotest5.osmosis.zone:443",
-            rest: "https://lcd.osmotest5.osmosis.zone:1317",
-            bip44: {
-                coinType: 118,
-            },
-            bech32Config: {
-                bech32PrefixAccAddr: "osmo",
-                bech32PrefixAccPub: "osmo" + "pub",
-                bech32PrefixValAddr: "osmo" + "valoper",
-                bech32PrefixValPub: "osmo" + "valoperpub",
-                bech32PrefixConsAddr: "osmo" + "valcons",
-                bech32PrefixConsPub: "osmo" + "valconspub",
-            },
-            currencies: [
-                {
-                    coinDenom: "OSMO",
-                    coinMinimalDenom: "uosmo",
-                    coinDecimals: 6,
-                    coinGeckoId: "osmosis",
-                },
-            ],
-            feeCurrencies: [
-                {
-                    coinDenom: "OSMO",
-                    coinMinimalDenom: "uosmo",
-                    coinDecimals: 6,
-                    coinGeckoId: "osmosis",
-                    gasPriceStep: {
-                        low: 0.01,
-                        average: 0.025,
-                        high: 0.04,
-                    },
-                },
-            ],
-            stakeCurrency: {
-                coinDenom: "OSMO",
-                coinMinimalDenom: "uosmo",
-                coinDecimals: 6,
-                coinGeckoId: "osmosis",
-            },
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
 
-export const connectWallet = createAsyncThunk("connectWallet", async () => {
+export const connectWallet = createAsyncThunk("connectWallet", async (chainId) => {
     try {
-        addChain();
+        addChainOsmo();
+        addChainArchway();
+
+        const getChain=chainData.get(`${chainId}`)
+
 
         if (!window.keplr) {
             throw new Error("Keplr Wallet extension not found");
         }
 
-        await window.keplr.enable("osmo-test-5");
 
-        const offlineSigner = await window.keplr.getOfflineSigner("osmo-test-5");
+        await window.keplr.enable(getChain.chainId);
+
+        const offlineSigner = await window.keplr.getOfflineSigner(getChain.chainId);
         const accounts = await offlineSigner.getAccounts();
 
         const signerClient = await setupWebKeplr({
-            rpcEndpoint: "https://rpc.osmotest5.osmosis.zone",
-            chainId: "osmo-test-5",
-            prefix: "osmosis",
-            gasPrice: GasPrice.fromString("0.250uosmo"),
+            rpcEndpoint: getChain.rpc,
+            chainId: getChain.chainId,
+            prefix: getChain.prefix,
+            gasPrice: GasPrice.fromString(getChain.gasPrice),
         });
 
         return {

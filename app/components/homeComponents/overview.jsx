@@ -41,7 +41,9 @@ const Overview = () => {
                             <Button size="md" radius='sm' className='text-white font-semibold bg-black'>View Assets</Button>
                         </div>
                     </Link>
+                    
                 </div>
+                <Button className='w-[200px] bg-black text-white font-semibold' size='md' radius='sm'>Update Wallet Members</Button>
             </div>
         </div>
     )
