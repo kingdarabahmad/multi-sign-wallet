@@ -33,11 +33,11 @@ const SidebarAccounts = () => {
 
     useEffect(() => {
         // Dispatch an action to check user's wallet connection status
-        dispatch(connectWallet(selectedChain.chainId))
+        dispatch(connectWallet(selectedChain?.chainId))
             .catch(error => {
                 console.error("Error checking wallet connection:", error);
             });
-    }, [selectedChain.chainId]);
+    }, [selectedChain?.chainId]);
 
     useEffect(() => {
         if (userData?.user?.clientSigner != "") {

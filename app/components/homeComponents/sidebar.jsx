@@ -23,11 +23,12 @@ const Sidebar = () => {
     const contract = queryParams.get("multi_sig");
     const router = useRouter()
     const walletData = (localStorage.key("name") === "/****user_wallet****/") ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)).length > 0 ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)) : ([{ walletName: "User" }]) : ([{ walletName: "User" }])
+    const selectedChain=useSelector(state=>state.selectedChainReducer)
 
 
     useEffect(() => {
 
-        dispatch(connectWallet())
+        dispatch(connectWallet(selectedChain?.chainId))
 
     }, [])
 

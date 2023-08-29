@@ -3,11 +3,12 @@
 import React, { useState } from 'react'
 import CreateInputSection from './CreateInputSection'
 import { chainData } from './chainAsset';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Avatar, CircularProgress, User } from '@nextui-org/react'
 import { Alert, AlertTitle } from '@mui/material';
+import { setGroupContract } from '../redux/feature/groupContractSlice';
 
 const steppers = [
     { id: 1, name: "Select network and name of your Safe Account", description: "Select the network on which to create your Safe Account" },
@@ -18,6 +19,7 @@ const steppers = [
 const CreateBoxStepper = () => {
     const [stepperCount, setStepperCount] = useState(0);
     const router = useRouter();
+    const dispatch=useDispatch()
     const [chain, setChain] = useState(0);
     const [onChain, setOnChain] = useState(false);
 
@@ -41,7 +43,8 @@ const CreateBoxStepper = () => {
                 weight: 55
             }
         ],
-        walletAddress: ""
+        walletAddress: "",
+        groupContract:""
     });
 
     const handleInputName = (e) => {
@@ -133,15 +136,21 @@ const CreateBoxStepper = () => {
                     const multi_contract_address = ((transaction?.logs[0]?.events.filter(item => item.type === "wasm"))[0].attributes.filter(items => items.key === "multi_contract_address"))[0].value;
                     const groupContract = ((transaction?.logs[0]?.events.filter(item => item.type === "wasm"))[0].attributes.filter(items => items.key === "cw4_group_address"))[0].value;
 
+                    console.log(groupContract)
+
+                    dispatch(setGroupContract(groupContract))
+
 
                     if (multi_contract_address) {
-                        setUserWalletData(prev => ({ ...prev, walletAddress: multi_contract_address }))
+                        setUserWalletData(prev => ({ ...prev, walletAddress: multi_contract_address,
+                        groupContract }))
                         setTransactionLoader(true)
 
                         setUserWalletData(prev => {
                             const userWalletAddr = {
                                 ...prev,
-                                walletAddress: multi_contract_address
+                                walletAddress: multi_contract_address,
+                                groupContract
                             }
 
                             const userWallets = localStorage.getItem("/****user_wallet****/") === null ? [] : localStorage.getItem("/****user_wallet****/");

@@ -15,7 +15,8 @@ const SendNftTxnForm = () => {
     const [nftFormData, setNftFormData] = useState({
         title: "",
         description: "",
-        address: "",
+        nftAddress:"",
+        recipientAddress: "",
         token_id: ""
     })
 
@@ -68,11 +69,12 @@ const SendNftTxnForm = () => {
         try {
             const approvalTxn=await clientSigner.execute(
                 signer,
-                "NftContractAddress",
+                nftFormData.nftAddress,
                 {
-                    increase_allowance:{
+                    approve:{
                         spender: queryParams.get("multi_sig"),
-                        token_id:nftFormData.token_id
+                        token_id:nftFormData.token_id,
+                        expires:undefined
                     }
                 },
                 "auto"
@@ -82,12 +84,12 @@ const SendNftTxnForm = () => {
                 queryParams.get("multi_sig"),
                 {
                     propose: {
-                        title: tokenFormData.title,
-                        description: tokenFormData.description,
+                        title: nftFormData.title,
+                        description: nftFormData.description,
                         msgs: [{
                             wasm: {
                                 execute: {
-                                    contract_addr: "nftContractAddress",
+                                    contract_addr: nftFormData.nftAddress,
                                     msg: btoa(JSON.stringify({
                                         transfer_nft: {
                                             recipient: nftFormData?.address,
@@ -123,7 +125,10 @@ const SendNftTxnForm = () => {
 
                     <TextField name='title' id='title' fullWidth label="Title" variant='outlined' required color='secondary' value={nftFormData.title} onChange={(e) => handleNftFormData(e)} />
                     <TextField name='description' id='description' fullWidth label="Description" variant='outlined' value={nftFormData.description} required color='secondary' onChange={(e) => handleNftFormData(e)} />
-                    <TextField name='address' id='recipientAddress' value={nftFormData.address} fullWidth label="Recipient address" variant='outlined' color='secondary' required InputProps={{
+                    <TextField name='nftAddress' id='nftAddress' value={nftFormData.nftAddress} fullWidth label="NFT Address" variant='outlined' color='secondary' required InputProps={{
+                        startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
+                    }} onChange={(e) => handleNftFormData(e)} />
+                    <TextField name='recipientAddress' id='recipientAddress' value={nftFormData.address} fullWidth label="Recipient address" variant='outlined' color='secondary' required InputProps={{
                         startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
                     }} onChange={(e) => handleNftFormData(e)} />
                     <TextField name='token_id' id='token_id' fullWidth label="Token Id" value={nftFormData.amount} variant='outlined' required color='secondary' onChange={(e) => handleNftFormData(e)} />

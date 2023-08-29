@@ -76,11 +76,11 @@ const Header = () => {
                 <div className="relative" ref={connectWalletRef}>
 
                     <Button size="sm" radius='sm' color="primary" variant="faded" className=' text-zinc-600 font-semibold  flex border border-slate-200 ' onClick={() => setIsOpen(!isOpen)}>
-                        {selectedChain.chainName} <ExpandMoreIcon className='w-5' />
+                        {selectedChain?.chainName} <ExpandMoreIcon className='w-5' />
                     </Button>
                     <div className="absolute top-full right-1 z-10 bg-white border border-gray-300 mt-4 px-2 w-[100px]"
                         style={{ display: isOpen ? 'block' : 'none' }}>
-                        {supportedChains.map((chain) => (
+                        {supportedChains?.map((chain) => (
                             <button
                                 key={chain.id}
                                 className="block px-2 py-2 hover:bg-gray-100 w-full text-left"
