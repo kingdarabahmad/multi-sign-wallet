@@ -34,6 +34,7 @@ const Header = () => {
         return () => {
             document.removeEventListener('click', handleDocumentClick);
         };
+        
     }, [showbar]);
     return (<>
 

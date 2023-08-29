@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const initialState = JSON.parse(localStorage.getItem("selectChain")) 
-console.log(initialState) || { chainName:"",chainId:""}
+const initialState = JSON.parse(localStorage.getItem("selectChain")) || { chainName:"",chainId:""}
 
 export const selectedChainSlice = createSlice({
     name: "selected Chain",

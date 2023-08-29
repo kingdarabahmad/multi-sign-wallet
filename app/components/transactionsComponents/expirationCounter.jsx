@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 const ExpirationCounter = ({proposal}) => {
-    const expirationTime=Date.now() + (proposal.expires.at_time/1000000000) *1000
+    const expirationTime=(proposal.expires.at_time/1000000000) *1000
     console.log(proposal.expires.at_time) 
     const [remainingTime,setRemainingTime]=useState(expirationTime - Date.now())
 
@@ -9,8 +9,6 @@ const ExpirationCounter = ({proposal}) => {
         const timer=setInterval(()=>{
             const newTimeRemain=expirationTime-Date.now()
             setRemainingTime(newTimeRemain)
-            console.log(newTimeRemain)
-            
             if(newTimeRemain <= 0){
                 clearInterval(timer);
             }

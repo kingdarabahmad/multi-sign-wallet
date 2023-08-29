@@ -11,6 +11,7 @@ import SendTokenTxnForm from '../components/homeComponents/sendTokenTxnForm'
 import SendNftTxnForm from '../components/homeComponents/sendNftTxnForm'
 import UpdateMember from '../components/homeComponents/updateMember'
 import { connectWallet } from '../redux/feature/connect-wallet-slice'
+import { setSelectedChain } from '../redux/feature/selectedChainSlice'
 
 const Home = () => {
   const { activeComponent } = useSelector((state) => state.activeComponent)
@@ -22,9 +23,10 @@ const Home = () => {
   const contract=queryParams.get('multi_sig')
   
   useEffect(()=>{
-    dispatch(connectWallet(selectedChain.chainId))
+    dispatch(connectWallet(selectedChain?.chainId))
     dispatch(fetchProposals({clientSigner,contract}))
-  },[proposalsData?.length,signer])
+    dispatch(setSelectedChain({chainName:selectedChain.chainName,chainId:selectedChain.chainId}))
+  },[proposalsData?.length,signer,selectedChain?.chainId])
   return (
     <div className='basis-4/5 py-10 px-6 flex flex-row justify-center gap-8'>
       {activeComponent === 1 && (
@@ -46,8 +48,3 @@ const Home = () => {
 }
 
 export default Home
-
-{/* <Overview/>
-            <TransactionQueue/> */}
-{/* <NewTransaction/> */ }
-{/* <Transactionform/>  */ }

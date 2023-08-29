@@ -30,14 +30,9 @@ const Sidebar = () => {
 
         dispatch(connectWallet(selectedChain?.chainId))
 
-    }, [])
+    }, [selectedChain?.chainId])
 
-    const getBal = async () => {
-        const txn = await clientSigner.queryClient.bank.balance(
-            contract,
-            'uosmo'
-        )
-    }
+
     return (
         <div className='basis-1/5 min-h-screen bg-white border-r-2 border-gray-300'>
             {/* upper-div  */}
