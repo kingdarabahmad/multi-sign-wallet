@@ -131,6 +131,8 @@ const CreateBoxStepper = () => {
                     console.log(transaction)
 
                     const multi_contract_address = ((transaction?.logs[0]?.events.filter(item => item.type === "wasm"))[0].attributes.filter(items => items.key === "multi_contract_address"))[0].value;
+                    const groupContract = ((transaction?.logs[0]?.events.filter(item => item.type === "wasm"))[0].attributes.filter(items => items.key === "cw4_group_address"))[0].value;
+
 
                     if (multi_contract_address) {
                         setUserWalletData(prev => ({ ...prev, walletAddress: multi_contract_address }))
