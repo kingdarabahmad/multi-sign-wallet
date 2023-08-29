@@ -6,6 +6,7 @@ import { Accordion, AccordionItem, Button } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ExpirationCounter from "./expirationCounter";
 
 const User = ({ proposal }) => {
     return (
@@ -38,6 +39,7 @@ const TransQueue = () => {
        
 
     }, [proposalsData?.length, signer, isProposalStatusChanged])
+
     console.log(proposalsData)
     const handleOpen = (id) => {
         setOpen((prev) => prev === false ? true : false)
@@ -120,11 +122,13 @@ const TransQueue = () => {
                                 <div className="basis-5/6 flex flex-col gap-2">
 
                                     <p className="text-xs font-bold">Proposer: <span className="text-xs text-cyan-700 font-medium">{proposal.proposer}</span></p>
-                                    <p className="text-xs font-bold">Interact with: <span className="text-xs text-amber-700 font-medium">{Object.keys(proposal.msgs[0]).includes("wasm")?proposal.msgs[0].wasm.execute.contract_addr :proposal.msgs[0].bank.send.to_address}</span></p>
+                                    <p className="text-xs font-bold">Interact with: <span className="text-xs text-amber-700 font-medium">{proposal.msgs.length===0?(`Text Proposal Message : ${proposal.description}`):(Object.keys(proposal.msgs[0]).includes("wasm")?proposal.msgs[0].wasm.execute.contract_addr :proposal.msgs[0].bank.send.to_address)}</span></p>
                                     <div className=" basis-1/2 flex flex-row gap-4 items-center">
                                         <Button size="sm" radius="md" className="bg-teal-600 text-white font-semibold" onClick={() => queryVotes(proposal.id)}>Get Vote Count</Button>
                                         <p className="font-semibold text-xs text-teal-600">{voteCount}</p>
                                     </div>
+                                    <p className="text-sm font-semibold">{<ExpirationCounter proposal={proposal}/>} </p>
+
                                 </div>
                                 <div className="basis-1/6 p-4" >
                                     <div className="flex flex-col gap-3">

@@ -124,7 +124,7 @@ const CreateBoxStepper = () => {
                             connector: {
                                 members: owner_arr,
                                 threshold_weight: userWalletData?.threshold,
-                                max_voting_period: currentTime + (userWalletData?.maxVotingPeriod * TimeConversion),
+                                max_voting_period:(userWalletData?.maxVotingPeriod * TimeConversion),
                                 //converting maxvotingPeriod from days to seconds.
                             }
                         },
@@ -132,6 +132,12 @@ const CreateBoxStepper = () => {
                     )
 
                     console.log(transaction)
+                    console.log({
+                        time: currentTime + (userWalletData?.maxVotingPeriod * TimeConversion),
+                        currTime: currentTime,
+                        maxVotePeriod: userWalletData?.maxVotingPeriod,
+                        conversion: TimeConversion
+                    });
 
                     const multi_contract_address = ((transaction?.logs[0]?.events.filter(item => item.type === "wasm"))[0].attributes.filter(items => items.key === "multi_contract_address"))[0].value;
                     const groupContract = ((transaction?.logs[0]?.events.filter(item => item.type === "wasm"))[0].attributes.filter(items => items.key === "cw4_group_address"))[0].value;

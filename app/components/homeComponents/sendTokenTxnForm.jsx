@@ -15,6 +15,7 @@ const SendTokenTxnForm = () => {
     const [tokenFormData, setTokenFormData] = useState({
         title: "",
         description: "",
+        tokenContractAddress:"",
         address: "",
         amount: 0
     })
@@ -32,43 +33,13 @@ const SendTokenTxnForm = () => {
         ))
     }
 
-    const hanleQuery = async () => {
-        try {
-
-            // const mintToken = await clientSigner.execute(
-            //     signer,
-            //     "osmo1py2y08gssxqp3r4ah9e73qq0qkl4squhy3q7zt0ja4nnrec70c7qyq4l4d",
-            //     {
-            //         mint: {
-            //             recipient: "osmo1cyyzpxplxdzkeea7kwsydadg87357qnahakaks",
-            //             amount: "1000"
-            //         }
-            //     },
-            //     "auto"
-            // );
-
-            // console.log(mintToken);
-            const queryBalance = await clientSigner.queryContractSmart(
-                "osmo1py2y08gssxqp3r4ah9e73qq0qkl4squhy3q7zt0ja4nnrec70c7qyq4l4d",
-                {
-                    balance: {
-                        address: "osmo1cyyzpxplxdzkeea7kwsydadg87357qnahakaks"
-                    }
-                }
-            )
-
-            console.log(queryBalance)
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     const handleSubmit = async () => {
 
         try {
             const approvalTxn=await clientSigner.execute(
                 signer,
-                "osmo1py2y08gssxqp3r4ah9e73qq0qkl4squhy3q7zt0ja4nnrec70c7qyq4l4d",
+                tokenFormData?.tokenContractAddress,
                 {
                     increase_allowance:{
                         spender: queryParams.get("multi_sig"),
@@ -88,7 +59,7 @@ const SendTokenTxnForm = () => {
                         msgs: [{
                             wasm: {
                                 execute: {
-                                    contract_addr: "osmo1py2y08gssxqp3r4ah9e73qq0qkl4squhy3q7zt0ja4nnrec70c7qyq4l4d",
+                                    contract_addr:tokenFormData.tokenContractAddress,
                                     msg: btoa(JSON.stringify({
                                         transfer_from: {
                                             owner: signer,
@@ -104,6 +75,8 @@ const SendTokenTxnForm = () => {
                 },
                 "auto"
             )
+            router.push(`/home/transactions?multi_sig=${queryParams.get('multi_sig')}`)
+            dispatch(setActiveComponent(1))
             console.log(createTokenTransferProposal)
 
         } catch (error) {
@@ -126,19 +99,14 @@ const SendTokenTxnForm = () => {
 
                     <TextField name='title' id='title' fullWidth label="Title" variant='outlined' required color='secondary' value={tokenFormData.title} onChange={(e) => handleTokenFormData(e)} />
                     <TextField name='description' id='description' fullWidth label="Description" variant='outlined' value={tokenFormData.description} required color='secondary' onChange={(e) => handleTokenFormData(e)} />
-                    <TextField name='address' id='recipientAddress' value={tokenFormData.address} fullWidth label="Recipient address" variant='outlined' color='secondary' required InputProps={{
-                        startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
-                    }} onChange={(e) => handleTokenFormData(e)} />
+                    <TextField name='tokenContractAddress' id='tokenContractAddress' value={tokenFormData.tokenContractAddress} fullWidth label="Token Contract Address" variant='outlined' color='secondary' required onChange={(e) => handleTokenFormData(e)} />
+                    <TextField name='address' id='recipientAddress' value={tokenFormData.address} fullWidth label="Recipient address" variant='outlined' color='secondary' required onChange={(e) => handleTokenFormData(e)} />
                     <TextField name='amount' type='Number' id='Amount' fullWidth label="Amount" value={tokenFormData.amount} variant='outlined' required color='secondary' onChange={(e) => handleTokenFormData(e)} />
                 </div>
                 <div className='flex justify-end'>
                     <Button radius='sm' className='text-white bg-black text-lg font-semibold'
                         onClick={handleSubmit}
                     >Next</Button>
-
-                    <Button radius='sm' className='text-white bg-black text-lg font-semibold'
-                        onClick={hanleQuery}
-                    >query</Button>
 
                 </div>
             </div>

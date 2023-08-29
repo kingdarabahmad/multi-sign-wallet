@@ -52,8 +52,9 @@ const Sidebar = () => {
                     {/* Avatar Data  */}
                     <div className='flex flex-col justify-start gap-1'>
                         <p className='text-sm tracking-wider font-bold'>{walletData[0]?.walletName}</p>
-
-                        <p className='text-xs font-semibold'>base-osmo:<span className='font-normal'>{queryParams.get("multi_sig")?.slice(0, 6).concat("...")}</span></p>
+                        <div className='w-[200px]'>
+                            <p className='text-xs font-semibold text-clip overflow-hidden'>{queryParams.get("multi_sig")}</p>
+                        </div>
                         <p onClick={() => getBal()} className='text-xs font-semibold'>0.00 USD</p>
                     </div>
 

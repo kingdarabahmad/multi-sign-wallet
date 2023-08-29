@@ -10,6 +10,7 @@ const TransactionQueue = () => {
     const router=useRouter()
     const queryParams=useSearchParams()
     const contract=queryParams.get("multi_sig")
+    console.log(proposalsData)
   return (
     <div className='w-2/5 flex flex-col gap-4'>
         {/* text heading  */}

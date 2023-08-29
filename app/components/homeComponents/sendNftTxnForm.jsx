@@ -104,6 +104,8 @@ const SendNftTxnForm = () => {
                 },
                 "auto"
             )
+            router.push(`/home/transactions?multi_sig=${queryParams.get('multi_sig')}`)
+            dispatch(setActiveComponent(1))
             console.log(createNftTransferProposal)
 
         } catch (error) {
@@ -125,9 +127,7 @@ const SendNftTxnForm = () => {
 
                     <TextField name='title' id='title' fullWidth label="Title" variant='outlined' required color='secondary' value={nftFormData.title} onChange={(e) => handleNftFormData(e)} />
                     <TextField name='description' id='description' fullWidth label="Description" variant='outlined' value={nftFormData.description} required color='secondary' onChange={(e) => handleNftFormData(e)} />
-                    <TextField name='nftAddress' id='nftAddress' value={nftFormData.nftAddress} fullWidth label="NFT Address" variant='outlined' color='secondary' required InputProps={{
-                        startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
-                    }} onChange={(e) => handleNftFormData(e)} />
+                    <TextField name='nftAddress' id='nftAddress' value={nftFormData.nftAddress} fullWidth label="NFT Address" variant='outlined' color='secondary' required  onChange={(e) => handleNftFormData(e)} />
                     <TextField name='recipientAddress' id='recipientAddress' value={nftFormData.address} fullWidth label="Recipient address" variant='outlined' color='secondary' required InputProps={{
                         startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
                     }} onChange={(e) => handleNftFormData(e)} />

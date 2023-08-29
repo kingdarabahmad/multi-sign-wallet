@@ -30,7 +30,6 @@ const Transactionform = () => {
 
     const handleSubmit = async () => {
         try {
-            // http://localhost:3001/home?multi_sig=osmo1sylzutg06euqch5ve2gqx5huvm2ml2wus39sqtgcfyvt3gwlk6cq5tzn29
 
             const createProposalTxn = await clientSigner.execute(
                 signer,
@@ -43,7 +42,7 @@ const Transactionform = () => {
                             bank: {
                                 send: {
                                     to_address: proposalData.address,
-                                    amount: [{ denom: "uosmo", amount: proposalData.amount }]
+                                    amount: [{ denom: "aconst", amount: proposalData.amount }]
                                 }
                             }
                         }],
@@ -74,9 +73,7 @@ const Transactionform = () => {
 
                     <TextField name='title' id='title' fullWidth label="Title" variant='outlined' required color='secondary' onChange={(e) => handleProposalData(e)} />
                     <TextField name='description' id='description' fullWidth label="Description" variant='outlined' required color='secondary' onChange={(e) => handleProposalData(e)} />
-                    <TextField name='address' id='recipientAddress' fullWidth label="Recipient address" variant='outlined' color='secondary' required InputProps={{
-                        startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
-                    }} onChange={(e) => handleProposalData(e)} />
+                    <TextField name='address' id='recipientAddress' fullWidth label="Recipient address" variant='outlined' color='secondary' required onChange={(e) => handleProposalData(e)} />
                     <TextField name='amount' type='Number' id='Amount' fullWidth label="Amount" variant='outlined' required color='secondary' onChange={(e) => handleProposalData(e)} />
                 </div>
                 <div className='flex justify-end'>

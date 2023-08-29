@@ -106,7 +106,7 @@ const SidebarAccounts = () => {
             <div  >
                 <h2 className="text-xl text-center font-semibold m-2">My Accounts</h2>
                 <hr />
-                <div className="bg-black text-white m-4 text-center p-2 rounded-md">Archway</div>
+                <div className="bg-black text-white m-4 text-center p-2 rounded-md">{selectedChain?.chainName}</div>
 
                 <div className="flex flex-col gap-1 w-full  h-[70vh] max-h-[80vh] overflow-auto scrollbar-thin scrollbar-rounded-* scrollbar-thumb-zinc-300">
                     {wallets?.map((item) => {

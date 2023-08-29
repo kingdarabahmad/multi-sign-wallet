@@ -33,22 +33,6 @@ const UpdateMember = () => {
         ))
     }
 
-    const queryAdmin = async () => {
-        try {
-            const queryTxn = await clientSigner.queryContractSmart(
-                "archway1np7f6qxv3v0gfq509avzzdwm9s4mv35uswcgucj299azwtej09rqnwj2mf",
-                {
-                    list_members: {
-                        start_after:undefined,
-                        limit:100
-                    }
-                }
-            )
-            console.log(queryTxn)
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     const handleSubmit = async () => {
         const updateMemberTxn = await clientSigner.execute(
@@ -79,6 +63,8 @@ const UpdateMember = () => {
             },
             "auto"
         )
+        router.push(`/home/transactions?multi_sig=${queryParams.get('multi_sig')}`)
+        dispatch(setActiveComponent(1))
     }
 
     console.log(updateMemberData)
@@ -110,7 +96,6 @@ const UpdateMember = () => {
                         handleSubmit
                     }
                     >update</Button>
-                    <Button onClick={queryAdmin}>queryAdmin</Button>
                 </div>
             </div>
             <div className='rounded-full text-xs font-semibold bg-white border-1 absolute py-4 px-2 right-3 -top-4 cursor-pointer' onClick={() => dispatch(setActiveComponent(1))}>
