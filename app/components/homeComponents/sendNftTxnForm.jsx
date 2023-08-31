@@ -36,29 +36,30 @@ const SendNftTxnForm = () => {
     const hanleQuery = async () => {
         try {
 
-            // const mintToken = await clientSigner.execute(
-            //     signer,
-            //     "osmo1py2y08gssxqp3r4ah9e73qq0qkl4squhy3q7zt0ja4nnrec70c7qyq4l4d",
-            //     {
-            //         mint: {
-            //             recipient: "osmo1cyyzpxplxdzkeea7kwsydadg87357qnahakaks",
-            //             amount: "1000"
-            //         }
-            //     },
-            //     "auto"
-            // );
-
-            // console.log(mintToken);
-            const queryBalance = await clientSigner.queryContractSmart(
-                "osmo1py2y08gssxqp3r4ah9e73qq0qkl4squhy3q7zt0ja4nnrec70c7qyq4l4d",
+            const mintToken = await clientSigner.execute(
+                signer,
+                "archway18er3fngv83rey3asxg8akh5jl2ng0x7pulgjfashp0p6qld4s8hqm9g62h",
                 {
-                    balance: {
-                        address: "osmo1cyyzpxplxdzkeea7kwsydadg87357qnahakaks"
+                    mint: {
+                        owner: "archway1cyyzpxplxdzkeea7kwsydadg87357qna2def24",
+                        token_id:"1",
+                        extension:""
                     }
-                }
-            )
+                },
+                "auto"
+            );
 
-            console.log(queryBalance)
+            console.log(mintToken);
+            // const queryBalance = await clientSigner.queryContractSmart(
+            //     "archway18er3fngv83rey3asxg8akh5jl2ng0x7pulgjfashp0p6qld4s8hqm9g62h",
+            //     {
+            //         balance: {
+            //             address: "archway1cyyzpxplxdzkeea7kwsydadg87357qna2def24"
+            //         }
+            //     }
+            // )
+
+            // console.log(queryBalance)
         } catch (error) {
             console.log(error)
         }
@@ -141,6 +142,8 @@ const SendNftTxnForm = () => {
                     <Button radius='sm' className='text-white bg-black text-lg font-semibold'
                         onClick={hanleQuery}
                     >query</Button>
+
+                    <Button>Mint Nft</Button>
 
                 </div>
             </div>
