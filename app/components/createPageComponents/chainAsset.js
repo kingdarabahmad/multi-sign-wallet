@@ -1,12 +1,10 @@
 import Ethereum from "../../../public/assets/ethereum.png";
+import archway from "../../../public/assets/archway.png"
 
 export const chainData = [
     {
-        name: "Ethereum",
-        image: Ethereum.src
+        name: "Archway",
+        image: archway.src
     },
-    {
-        name: "Ethereum 2",
-        image: Ethereum.src
-    }
+    
 ]

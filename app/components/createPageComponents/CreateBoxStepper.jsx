@@ -210,7 +210,7 @@ const CreateBoxStepper = () => {
                                     className='outline-none border px-3 py-3 my-2 w-[50%] rounded realtive' />
 
                                 <div>
-                                    <div className="flex items-center justify-center border p-1 ml-2 rounded relative" onClick={() => setOnChain(true)} >
+                                    <div className="flex items-center justify-center border p-1 ml-2 rounded relative gap-2" onClick={() => setOnChain(true)} >
                                         <img src={chainData[chain].image} alt="" className="w-10 h-10" />
                                         <h3 className="font-semibold text-[13px]">{chainData[chain].name}</h3>
 

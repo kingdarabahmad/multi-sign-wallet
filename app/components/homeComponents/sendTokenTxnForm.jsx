@@ -35,39 +35,39 @@ const SendTokenTxnForm = () => {
         ))
     }
 
-    const handleMint=async()=>{
-        const querytxn=await clientSigner.queryContractSmart(
-            tokenFormData.tokenContractAddress,
-            {
-                balance:{
-                    address:tokenFormData.address
-                }
-            }
-        )
-        console.log(querytxn)
-        try {
-            const mintTxn=await clientSigner.execute(
+    // const handleMint=async()=>{
+    //     const querytxn=await clientSigner.queryContractSmart(
+    //         tokenFormData.tokenContractAddress,
+    //         {
+    //             balance:{
+    //                 address:tokenFormData.address
+    //             }
+    //         }
+    //     )
+    //     console.log(querytxn)
+    //     try {
+    //         const mintTxn=await clientSigner.execute(
             
-                signer,
-                tokenFormData.tokenContractAddress,
-                {
-                    mint:{
-                        recipient:tokenFormData.address,
-                        amount:tokenFormData.amount
-                    }
-                },
-                "auto"
+    //             signer,
+    //             tokenFormData.tokenContractAddress,
+    //             {
+    //                 mint:{
+    //                     recipient:tokenFormData.address,
+    //                     amount:tokenFormData.amount
+    //                 }
+    //             },
+    //             "auto"
     
-            )
+    //         )
     
-            console.log(mintTxn)
+    //         console.log(mintTxn)
             
-        } catch (error) {
-            console.log(error)
-        }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
         
         
-    }
+    // }
 
 
     const handleSubmit = async () => {
@@ -143,7 +143,7 @@ const SendTokenTxnForm = () => {
                     <Button radius='sm' className='text-white bg-black text-lg font-semibold'
                         onClick={handleSubmit}
                     >Next</Button>
-                    <Button onClick={handleMint}>Mint token</Button>
+                    {/* <Button onClick={handleMint}>Mint token</Button> */}
 
                 </div>
             </div>
