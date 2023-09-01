@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { connectWallet, disconnect } from "@/app/redux/feature/connect-wallet-slice";

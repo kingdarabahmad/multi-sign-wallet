@@ -1,4 +1,4 @@
-import Ethereum from "../../public/assets/ethereum.png";
+import Ethereum from "../../../public/assets/ethereum.png";
 
 export const chainData = [
     {

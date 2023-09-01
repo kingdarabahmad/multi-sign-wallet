@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import PersonIcon from '@mui/icons-material/Person';

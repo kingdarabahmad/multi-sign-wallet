@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react'
 import { InputAdornment, TextField } from '@mui/material'
 import { Button } from '@nextui-org/react'

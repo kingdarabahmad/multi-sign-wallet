@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Avatar, CircularProgress, User } from '@nextui-org/react'
 import { Alert, AlertTitle } from '@mui/material';
-import { setGroupContract } from '../redux/feature/groupContractSlice';
+import { setGroupContract } from '@/app/redux/feature/groupContractSlice';
 
 const steppers = [
     { id: 1, name: "Select network and name of your Safe Account", description: "Select the network on which to create your Safe Account" },
