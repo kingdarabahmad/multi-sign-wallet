@@ -1,6 +1,10 @@
+"use client"
 import { createSlice } from "@reduxjs/toolkit"
 
-const initialState = JSON.parse(localStorage.getItem("selectChain")) || { chainName:"",chainId:""}
+
+console.log(JSON.parse(null))
+
+const initialState = JSON.parse(localStorage.getItem("selectChain")) || { chainName: "", chainId: "", denom: "" }
 
 export const selectedChainSlice = createSlice({
     name: "selected Chain",
@@ -8,8 +12,9 @@ export const selectedChainSlice = createSlice({
     reducers: {
         setSelectedChain: (state, action) => {
             state.chainName = action.payload.chainName;
-            state.chainId=action.payload.chainId;
-            localStorage.setItem("selectChain",JSON.stringify(state))
+            state.chainId = action.payload.chainId;
+            state.denom = action.payload.denom;
+            localStorage.setItem("selectChain", JSON.stringify(state))
             return state;
         }
     }

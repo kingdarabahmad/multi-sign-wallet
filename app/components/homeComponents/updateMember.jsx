@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import TollIcon from '@mui/icons-material/Toll';
 import { InputAdornment, TextField } from '@mui/material';
 import { Button } from '@nextui-org/react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveComponent } from '@/app/redux/feature/activeComponentSlice';
 
@@ -10,10 +10,14 @@ import { setActiveComponent } from '@/app/redux/feature/activeComponentSlice';
 const UpdateMember = () => {
 
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
-    const {groupContract}=useSelector(state=>state.groupContractReducer)
+    const { groupContract } = useSelector(state => state.groupContractReducer)
     const dispatch = useDispatch()
+    const router = useRouter()
     const contract = useSearchParams().get('multi_sig')
-    const walletData = (localStorage.key("name") === "/****user_wallet****/") ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)).length > 0 ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)) : ([{ walletName: "User" }]) : ([{ walletName: "User" }])
+
+    const walletData = localStorage.getItem('/****user_wallet****/') ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)).length > 0 ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)) : ([{ walletName: "User"}]) : ([{ walletName: "User"}])
+
+    console.log(walletData)
 
     const [updateMemberData, setUpdateMemberData] = useState({
         title: "",
@@ -35,6 +39,9 @@ const UpdateMember = () => {
 
 
     const handleSubmit = async () => {
+
+        console.log(groupContract , walletData[0].groupContract)
+
         const updateMemberTxn = await clientSigner.execute(
             signer,
             contract,
@@ -45,7 +52,7 @@ const UpdateMember = () => {
                     msgs: [{
                         wasm: {
                             execute: {
-                                contract_addr:groupContract || walletData[0].groupContract,
+                                contract_addr: groupContract || walletData[0].groupContract,
                                 msg: btoa(JSON.stringify({
                                     update_members: {
                                         remove: [updateMemberData.removeMember],
@@ -83,12 +90,8 @@ const UpdateMember = () => {
                     <TextField name='title' id='title' fullWidth label="Title" variant='outlined' required color='secondary' value={updateMemberData.title} onChange={(e) => handleMemberUpdate(e)} />
                     <TextField name='description' id='description' fullWidth label="Description" variant='outlined' value={updateMemberData.description} required color='secondary' onChange={(e) => handleMemberUpdate(e)} />
 
-                    <TextField name='removeMember' onChange={(e) => handleMemberUpdate(e)} value={updateMemberData.removeMember} id='removeAddress' fullWidth label="Remove Member" variant='outlined' color='secondary' required InputProps={{
-                        startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
-                    }} />
-                    <TextField name='addMember' onChange={(e) => handleMemberUpdate(e)} value={updateMemberData.addMember} id='addAddress' fullWidth label="Add Member" variant='outlined' color='secondary' required InputProps={{
-                        startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
-                    }} />
+                    <TextField name='removeMember' onChange={(e) => handleMemberUpdate(e)} value={updateMemberData.removeMember} id='removeAddress' fullWidth label="Remove Member" variant='outlined' color='secondary' />
+                    <TextField name='addMember' onChange={(e) => handleMemberUpdate(e)} value={updateMemberData.addMember} id='addAddress' fullWidth label="Add Member" variant='outlined' color='secondary' required />
                     <TextField name='weight' type='Number' id='weight' fullWidth label="New Member Weight" value={updateMemberData.weight} variant='outlined' required color='secondary' onChange={(e) => handleMemberUpdate(e)} />
                 </div>
                 <div className='flex justify-end'>

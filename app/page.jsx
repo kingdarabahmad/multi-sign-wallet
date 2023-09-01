@@ -18,7 +18,7 @@ const Home = () => {
                     <div className="bg-white w-120vh p-2 flex flex-col gap-4 rounded-lg">
                         <img src="https://images.ctfassets.net/0idwgenf7ije/3RHqqPh6R4HvOMQ0ZvZ9Iy/e2a2ed57d32cdc7a99de39d7fd1029a2/What_is_a_multi_sig_wallet?fm=webp&w=1024&q=100" className="w-1/2 self-center" />
                         <AddIcon className="text-6xl text-indigo-300 font-bold text-center" />
-                        <h2 className="text-xl font-semibold text-center">Create Safe Account</h2>
+                        <h2 className="text-xl font-semibold text-center">Create Vaulto Account</h2>
                         <p className="text-xs text-gray-700 text-center">A new Account that is controlled by one or multiple owners.</p>
                         <Link className="border-2 border-zinc-300 rounded-lg p-2 hover:bg-zinc-200 text-center hover:transition ease-in duration-700" href="/create">Create button</Link>
                     </div>

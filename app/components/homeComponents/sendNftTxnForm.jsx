@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation';
 import TollIcon from '@mui/icons-material/Toll';
 import { InputAdornment, TextField } from '@mui/material';
 import { Button } from '@nextui-org/react';
@@ -7,15 +8,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setActiveComponent } from '@/app/redux/feature/activeComponentSlice';
 
 
+
 const SendNftTxnForm = () => {
     const { clientSigner, signer } = useSelector(state => state.connectWalletReducer.user)
     const queryParams = useSearchParams()
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
+    const router = useRouter()
+    
 
     const [nftFormData, setNftFormData] = useState({
         title: "",
         description: "",
-        nftAddress:"",
+        nftAddress: "",
         recipientAddress: "",
         token_id: ""
     })
@@ -33,49 +37,17 @@ const SendNftTxnForm = () => {
         ))
     }
 
-    const hanleQuery = async () => {
-        try {
-
-            const mintToken = await clientSigner.execute(
-                signer,
-                "archway18er3fngv83rey3asxg8akh5jl2ng0x7pulgjfashp0p6qld4s8hqm9g62h",
-                {
-                    mint: {
-                        owner: "archway1cyyzpxplxdzkeea7kwsydadg87357qna2def24",
-                        token_id:"1",
-                        extension:""
-                    }
-                },
-                "auto"
-            );
-
-            console.log(mintToken);
-            // const queryBalance = await clientSigner.queryContractSmart(
-            //     "archway18er3fngv83rey3asxg8akh5jl2ng0x7pulgjfashp0p6qld4s8hqm9g62h",
-            //     {
-            //         balance: {
-            //             address: "archway1cyyzpxplxdzkeea7kwsydadg87357qna2def24"
-            //         }
-            //     }
-            // )
-
-            // console.log(queryBalance)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     const handleSubmit = async () => {
 
         try {
-            const approvalTxn=await clientSigner.execute(
+            const approvalTxn = await clientSigner.execute(
                 signer,
                 nftFormData.nftAddress,
                 {
-                    approve:{
+                    approve: {
                         spender: queryParams.get("multi_sig"),
-                        token_id:nftFormData.token_id,
-                        expires:undefined
+                        token_id: nftFormData.token_id,
+                        expires: undefined
                     }
                 },
                 "auto"
@@ -93,7 +65,7 @@ const SendNftTxnForm = () => {
                                     contract_addr: nftFormData.nftAddress,
                                     msg: btoa(JSON.stringify({
                                         transfer_nft: {
-                                            recipient: nftFormData?.address,
+                                            recipient: nftFormData?.recipientAddress,
                                             token_id: nftFormData?.token_id
                                         }
                                     })),
@@ -128,23 +100,14 @@ const SendNftTxnForm = () => {
 
                     <TextField name='title' id='title' fullWidth label="Title" variant='outlined' required color='secondary' value={nftFormData.title} onChange={(e) => handleNftFormData(e)} />
                     <TextField name='description' id='description' fullWidth label="Description" variant='outlined' value={nftFormData.description} required color='secondary' onChange={(e) => handleNftFormData(e)} />
-                    <TextField name='nftAddress' id='nftAddress' value={nftFormData.nftAddress} fullWidth label="NFT Address" variant='outlined' color='secondary' required  onChange={(e) => handleNftFormData(e)} />
-                    <TextField name='recipientAddress' id='recipientAddress' value={nftFormData.address} fullWidth label="Recipient address" variant='outlined' color='secondary' required InputProps={{
-                        startAdornment: <InputAdornment position="start">base-gor:</InputAdornment>,
-                    }} onChange={(e) => handleNftFormData(e)} />
+                    <TextField name='nftAddress' id='nftAddress' value={nftFormData.nftAddress} fullWidth label="NFT Address" variant='outlined' color='secondary' required onChange={(e) => handleNftFormData(e)} />
+                    <TextField name='recipientAddress' id='recipientAddress' value={nftFormData.recipientAddress} fullWidth label="Recipient address" variant='outlined' color='secondary' required onChange={(e) => handleNftFormData(e)} />
                     <TextField name='token_id' id='token_id' fullWidth label="Token Id" value={nftFormData.amount} variant='outlined' required color='secondary' onChange={(e) => handleNftFormData(e)} />
                 </div>
                 <div className='flex justify-end'>
                     <Button radius='sm' className='text-white bg-black text-lg font-semibold'
                         onClick={handleSubmit}
                     >Next</Button>
-
-                    <Button radius='sm' className='text-white bg-black text-lg font-semibold'
-                        onClick={hanleQuery}
-                    >query</Button>
-
-                    <Button>Mint Nft</Button>
-
                 </div>
             </div>
             <div className='rounded-full text-xs font-semibold bg-white border-1 absolute py-4 px-2 right-3 -top-4 cursor-pointer' onClick={() => dispatch(setActiveComponent(1))}>

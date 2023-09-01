@@ -2,23 +2,33 @@ import React from 'react';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { connectWallet, disconnect } from "@/app/redux/feature/connect-wallet-slice";
 import { useDispatch, useSelector } from 'react-redux';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Link from 'next/link';
 
 const Connectwallet = ({selectedChain}) => {
   const dispatch = useDispatch();
   const userData = useSelector(state => state.connectWalletReducer);
   
+  const handlecopy=async()=>{
+    try {
+         await navigator.clipboard.writeText(userData.user.signer);
+         console.log('Content copied to clipboard');
+       } catch (err) {
+         console.error('Wallet not connected: ', err);
+       }
+   }
   
 
   return (
     <div className="bg-white w-[40vh] flex flex-col items-center p-2 gap-4 border rounded-lg ">
       <div className="px-6 py-4 border-b rounded-t">
         {userData.user.signer ? (
-          <h3 className="text-base font-semibold text-gray-900">
+          <h3 className="text-base font-semibold text-gray-900 flex gap-2">
             Disconnect wallet
+            <ContentCopyIcon onClick={handlecopy} className='text-xs text-zinc-400'/>
           </h3>
         ) : (
-          <h3 className="text-base font-semibold text-gray-900">
+          <h3 className="text-base font-semibold text-gray-900 flex gap-2">
             Connect wallet
           </h3>
         )}

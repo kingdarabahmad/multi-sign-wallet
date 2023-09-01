@@ -13,6 +13,7 @@ import { fetchProposals } from '@/app/redux/feature/fetchProposalsSlice'
 import { connectWallet } from '@/app/redux/feature/connect-wallet-slice';
 
 
+
 const Sidebar = () => {
     const pathName = usePathname()
     const [activePage, setActivePage] = useState(pathName)
@@ -22,16 +23,16 @@ const Sidebar = () => {
     const proposalsData = useSelector(state => state.fetchProposalsReducer?.proposalList);
     const contract = queryParams.get("multi_sig");
     const router = useRouter()
-    const walletData = (localStorage.key("name") === "/****user_wallet****/") ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)).length > 0 ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)) : ([{ walletName: "User" }]) : ([{ walletName: "User" }])
-    const selectedChain=useSelector(state=>state.selectedChainReducer)
 
+    const walletData = localStorage.getItem('/****user_wallet****/') ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)).length > 0 ? (JSON.parse(localStorage.getItem('/****user_wallet****/')).filter((item) => item.walletAddress === `${contract}`)) : ([{ walletName: "User" }]) : ([{ walletName: "User" }])
+
+    const selectedChain = useSelector(state => state.selectedChainReducer)
 
     useEffect(() => {
-
         dispatch(connectWallet(selectedChain?.chainId))
-
     }, [selectedChain?.chainId])
 
+    
 
     return (
         <div className='basis-1/5 min-h-screen bg-white border-r-2 border-gray-300'>
@@ -50,7 +51,6 @@ const Sidebar = () => {
                         <div className='w-[200px]'>
                             <p className='text-xs font-semibold text-clip overflow-hidden'>{queryParams.get("multi_sig")}</p>
                         </div>
-                        <p onClick={() => getBal()} className='text-xs font-semibold'>0.00 USD</p>
                     </div>
 
                 </div>
@@ -85,12 +85,12 @@ const Sidebar = () => {
                         <p className='font-semibold tracking-wider text-sm'>Transactions</p>
                     </div>
                 </Link>
-                <Link href={`/home/assets?multi_sig=${contract}`}>
+                {/* <Link href={`/home/assets?multi_sig=${contract}`}>
                     <div onClick={() => setActivePage(`/home/assets?multi_sig=${contract}`)} className={`flex items-center gap-4 ${activePage === `/home/assets?multi_sig=${contract}` && "bg-gray-100/80"}  hover:bg-green-200/50 rounded-lg p-3`}>
                         <TollIcon />
                         <p className='font-semibold tracking-wider text-sm'>Assets</p>
                     </div>
-                </Link>
+                </Link> */}
             </div>
         </div>
     )

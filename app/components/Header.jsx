@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@nextui-org/react';
 import { supportedChains } from '../supportedChains';
 import { setSelectedChain } from '../redux/feature/selectedChainSlice';
+import { chainData } from '../redux/chainData';
+
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -17,14 +19,16 @@ const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
     const userData = useSelector(state => state.connectWalletReducer);
     const selectedChain=useSelector(state=>state.selectedChainReducer)
+    
 
     const handleDocumentClick = (event) => {
         if (connectWalletRef.current && !connectWalletRef.current.contains(event.target)) {
             setShowbar(false);
             setIsOpen(false);
-
+            
         }
     };
+
 
     console.log(selectedChain)
 
@@ -60,7 +64,9 @@ const Header = () => {
                 ) : (
                     <div className="flex align-center" ref={connectWalletRef} >
                         <Button size="md" radius='sm' color="primary" variant="faded" className=' text-black font-semibold  flex flex-col border border-slate-200 ' onClick={() => setShowbar(true)}>
-                            <p className='mb-0 font-san text-zinc-700'>Connected</p>
+                            <p className='mb-0 font-san text-zinc-700 flex gap-2'>
+                                Connected </p>
+                                
                             <p className='-mt-3 font-light text-zinc-500'>{userData.user.signer.slice(0, 6) + "...." + userData.user.signer.slice((userData.user.signer.length - 6), userData.user.signer.length)}</p>
                         </Button>
                     </div>
@@ -87,7 +93,7 @@ const Header = () => {
                                 className="block px-2 py-2 hover:bg-gray-100 w-full text-left"
                                 onClick={() => {
                                     setIsOpen(false);
-                                    dispatch(setSelectedChain({chainName:chain.name,chainId:chain.id,}));
+                                    dispatch(setSelectedChain({chainName:chain.name,chainId:chain.id, denom: chain.denom}));
                                     dispatch(disconnect())
                                 }}
                             >

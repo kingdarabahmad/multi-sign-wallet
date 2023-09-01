@@ -7,7 +7,7 @@ import ReduxProvider from './redux/ReduxProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'MultiSig',
+  title: 'Vaulto',
   description: 'MultiSig, A lock that only opens with enough keys',
 }
 

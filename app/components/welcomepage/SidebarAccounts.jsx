@@ -15,7 +15,7 @@ const SidebarAccounts = () => {
     const [isConnecting, setIsConnecting] = useState(false);
     const [wallets, setWallets] = useState([]);
     const deployerContract = process.env.NEXT_PUBLIC_DEPLOYER_CONTRACT;
-    const selectedChain=useSelector(state=>state.selectedChainReducer)
+    const selectedChain = useSelector(state => state.selectedChainReducer)
 
     const handleConnectWallet = () => {
         setIsConnecting(true);
@@ -111,11 +111,11 @@ const SidebarAccounts = () => {
                 <div className="flex flex-col gap-1 w-full  h-[70vh] max-h-[80vh] overflow-auto scrollbar-thin scrollbar-rounded-* scrollbar-thumb-zinc-300">
                     {wallets?.map((item) => {
 
-                        const localWallets = localStorage.key("name") == "/****user_wallet****/" ? JSON.parse(localStorage.getItem("/****user_wallet****/")).find(wallet => wallet.walletAddress === item) : null
-                        
+                        const localWallets = localStorage.getItem("/****user_wallet****/") ? JSON.parse(localStorage.getItem("/****user_wallet****/")).find(wallet => wallet.walletAddress === item) : null
+
                         return (
                             <Link key={item} href={`/home?multi_sig=${item}`}>
-                                <Account name={ localWallets?.walletName || "user"} address={item} />
+                                <Account name={localWallets?.walletName || "user"} address={item} />
                             </Link>
                         )
                     })

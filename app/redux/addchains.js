@@ -1,3 +1,5 @@
+
+
 export const addChainOsmo = async () => {
     try {
         const data = await window.keplr.experimentalSuggestChain({

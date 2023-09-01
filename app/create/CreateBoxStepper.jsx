@@ -18,6 +18,7 @@ const steppers = [
 
 const CreateBoxStepper = () => {
     const [stepperCount, setStepperCount] = useState(0);
+    const selectedChain = useSelector((state) => state.selectedChainReducer);
     const router = useRouter();
     const dispatch=useDispatch()
     const [chain, setChain] = useState(0);
@@ -258,7 +259,7 @@ const CreateBoxStepper = () => {
                                         <tbody>
                                             <tr className="border-b">
                                                 <td className="py-2 px-4 font-semibold">Network</td>
-                                                <td className="py-2 px-4">Osmosis</td>  {/* @todo- dynamic chain */}
+                                                <td className="py-2 px-4">{selectedChain?.chainName}</td>  {/* @todo- dynamic chain */}
                                             </tr>
                                             <tr className="border-b">
                                                 <td className="py-2 px-4 font-semibold">Name</td>
